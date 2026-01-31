@@ -1,0 +1,25 @@
+# node & deps
+node_modules
+**/node_modules
+
+# git & docs
+.git
+.gitignore
+docs
+history
+specs
+
+# scripts & configs not needed in image
+scripts
+helm-charts
+config
+qwen-env
+
+# Docker & k8s artifacts
+docker
+*.log
+*.md
+
+# OS junk
+.DS_Store
+Thumbs.db

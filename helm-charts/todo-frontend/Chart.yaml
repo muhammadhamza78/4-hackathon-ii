@@ -1,0 +1,22 @@
+apiVersion: v2
+name: todo-frontend
+description: Next.js frontend for Todo Chatbot application - Phase IV Kubernetes Deployment
+type: application
+version: 1.0.0
+appVersion: "1.0.0"
+keywords:
+  - nextjs
+  - frontend
+  - react
+  - todo
+  - chatbot
+  - typescript
+maintainers:
+  - name: Claude Code
+    email: noreply@anthropic.com
+home: https://github.com/phase-4-kubernetes-deployment
+sources:
+  - https://github.com/phase-4-kubernetes-deployment
+annotations:
+  category: Frontend
+  licenses: MIT

@@ -1,0 +1,97 @@
+# ==============================================================================
+# Frontend Docker Ignore File
+# ==============================================================================
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Dependencies
+node_modules
+.pnp
+.pnp.js
+
+# Build output (will be generated in container)
+.next
+out
+build
+dist
+
+# Testing
+coverage
+.nyc_output
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+
+# Environment files (secrets injected at runtime)
+.env
+.env.local
+.env.development
+.env.development.local
+.env.test
+.env.test.local
+.env.production
+.env.production.local
+*.local
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# Misc
+.DS_Store
+Thumbs.db
+*.log
+
+# Docker
+Dockerfile*
+docker-compose*
+.docker/
+
+# Documentation
+*.md
+!README.md
+docs/
+
+# Vercel
+.vercel
+
+# PWA files
+**/public/workbox-*.js
+**/public/sw.js
+**/public/worker-*.js
+
+# Test files
+__tests__/
+*.test.js
+*.test.ts
+*.test.tsx
+*.spec.js
+*.spec.ts
+*.spec.tsx
+jest.config.*
+cypress/
+cypress.config.*
+
+# Storybook
+.storybook/
+storybook-static/
+
+# ESLint cache
+.eslintcache
+
+# Prisma (if using client-side)
+prisma/

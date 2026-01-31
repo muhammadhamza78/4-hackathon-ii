@@ -1,0 +1,99 @@
+===============================================================================
+  Todo Chatbot Frontend - Deployment Successful!
+===============================================================================
+
+Application: {{ include "todo-frontend.fullname" . }}
+Namespace:   {{ .Release.Namespace }}
+Version:     {{ .Chart.AppVersion }}
+
+-------------------------------------------------------------------------------
+  SERVICE INFORMATION
+-------------------------------------------------------------------------------
+
+Service Name: {{ include "todo-frontend.fullname" . }}-svc
+Service Type: {{ .Values.service.type }}
+Service Port: {{ .Values.service.port }}
+
+{{- if eq .Values.service.type "NodePort" }}
+
+The frontend is accessible via NodePort:
+
+  1. Get the Minikube IP:
+     minikube ip
+
+  2. Access the application at:
+     http://<MINIKUBE_IP>:{{ .Values.service.nodePort }}
+
+  Or use minikube service command:
+     minikube service {{ include "todo-frontend.fullname" . }}-svc -n {{ .Release.Namespace }}
+
+  Or use port-forward:
+     kubectl port-forward svc/{{ include "todo-frontend.fullname" . }}-svc {{ .Values.service.nodePort }}:{{ .Values.service.port }} -n {{ .Release.Namespace }}
+     Then access: http://localhost:{{ .Values.service.nodePort }}
+
+{{- else if eq .Values.service.type "ClusterIP" }}
+
+The frontend is accessible within the cluster at:
+  http://{{ include "todo-frontend.fullname" . }}-svc:{{ .Values.service.port }}
+
+To access from your local machine, run:
+  kubectl port-forward svc/{{ include "todo-frontend.fullname" . }}-svc 3000:{{ .Values.service.port }} -n {{ .Release.Namespace }}
+
+Then access the application at:
+  http://localhost:3000
+
+{{- end }}
+
+{{- if .Values.ingress.enabled }}
+
+-------------------------------------------------------------------------------
+  INGRESS INFORMATION
+-------------------------------------------------------------------------------
+
+The application is accessible via Ingress:
+{{- range .Values.ingress.hosts }}
+  http{{ if $.Values.ingress.tls }}s{{ end }}://{{ .host }}
+{{- end }}
+
+{{- end }}
+
+-------------------------------------------------------------------------------
+  HEALTH CHECK
+-------------------------------------------------------------------------------
+
+Check pod status:
+  kubectl get pods -l "app.kubernetes.io/name={{ include "todo-frontend.name" . }}" -n {{ .Release.Namespace }}
+
+View logs:
+  kubectl logs -l "app.kubernetes.io/name={{ include "todo-frontend.name" . }}" -n {{ .Release.Namespace }} -f
+
+-------------------------------------------------------------------------------
+  CONFIGURATION
+-------------------------------------------------------------------------------
+
+ConfigMap: {{ include "todo-frontend.configmapName" . }}
+Backend API URL: {{ .Values.config.apiUrl }}
+
+View configuration:
+  kubectl get configmap {{ include "todo-frontend.configmapName" . }} -n {{ .Release.Namespace }} -o yaml
+
+-------------------------------------------------------------------------------
+  USEFUL COMMANDS
+-------------------------------------------------------------------------------
+
+# Restart deployment
+kubectl rollout restart deployment/{{ include "todo-frontend.fullname" . }} -n {{ .Release.Namespace }}
+
+# Scale deployment
+kubectl scale deployment/{{ include "todo-frontend.fullname" . }} --replicas=2 -n {{ .Release.Namespace }}
+
+# View events
+kubectl get events -n {{ .Release.Namespace }} --sort-by='.lastTimestamp'
+
+# Describe deployment
+kubectl describe deployment/{{ include "todo-frontend.fullname" . }} -n {{ .Release.Namespace }}
+
+# Check all resources
+kubectl get all -n {{ .Release.Namespace }}
+
+===============================================================================

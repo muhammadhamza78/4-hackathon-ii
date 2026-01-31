@@ -1,0 +1,38 @@
+# ==============================================================================
+# Phase IV - Local Environment Variables Example
+# ==============================================================================
+# Copy this file and rename to .env in the backend directory
+# These values are used by the deployment scripts to configure Kubernetes secrets
+# ==============================================================================
+
+# Database Configuration
+# PostgreSQL connection URL (Neon, Supabase, or local PostgreSQL)
+DATABASE_URL=postgresql://user:password@host:5432/database?sslmode=require
+
+# Authentication
+# JWT secret key for signing tokens (generate with: openssl rand -base64 32)
+JWT_SECRET_KEY=your-super-secret-jwt-key-here
+
+# CORS Configuration
+# Comma-separated list of allowed origins
+CORS_ORIGINS=http://localhost:3000,http://127.0.0.1:3000,http://localhost:30080
+
+# Debug Mode
+# Set to True for development, False for production
+DEBUG=False
+
+# AI Provider Configuration
+# Options: groq, openai, anthropic
+AI_PROVIDER=groq
+
+# Groq API Key (if using Groq)
+# Get from: https://console.groq.com/keys
+GROQ_API_KEY=gsk_your_groq_api_key_here
+
+# OpenAI API Key (if using OpenAI)
+# Get from: https://platform.openai.com/api-keys
+# OPENAI_API_KEY=sk-your_openai_api_key_here
+
+# Anthropic API Key (if using Claude)
+# Get from: https://console.anthropic.com/
+# ANTHROPIC_API_KEY=sk-ant-your_anthropic_api_key_here

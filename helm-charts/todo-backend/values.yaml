@@ -1,0 +1,179 @@
+# ==============================================================================
+# Todo Backend Helm Chart - Default Values
+# ==============================================================================
+
+# -- Number of replicas for the backend deployment
+replicaCount: 1
+
+# -- Image configuration
+image:
+  # -- Docker image repository
+  repository: todo-backend
+  # -- Image pull policy
+  pullPolicy: IfNotPresent
+  # -- Image tag (defaults to Chart appVersion if not set)
+  tag: "latest"
+
+# -- Image pull secrets for private registries
+imagePullSecrets: []
+
+# -- Override the name of the chart
+nameOverride: ""
+
+# -- Override the full name of the chart
+fullnameOverride: ""
+
+# -- Service account configuration
+serviceAccount:
+  # -- Create a service account
+  create: true
+  # -- Annotations for the service account
+  annotations: {}
+  # -- Name of the service account (auto-generated if not set)
+  name: ""
+
+# -- Pod annotations
+podAnnotations: {}
+
+# -- Pod security context
+podSecurityContext:
+  fsGroup: 1001
+
+# -- Container security context
+securityContext:
+  runAsNonRoot: true
+  runAsUser: 1001
+  runAsGroup: 1001
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: false
+  capabilities:
+    drop:
+      - ALL
+
+# -- Service configuration
+service:
+  # -- Service type (ClusterIP for internal access)
+  type: ClusterIP
+  # -- Service port
+  port: 8000
+  # -- Target port on the container
+  targetPort: 8000
+
+# -- Ingress configuration (disabled by default for local deployment)
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts:
+    - host: api.todo.local
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+
+# -- Resource limits and requests
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
+# -- Autoscaling configuration (disabled for local deployment)
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 3
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
+
+# -- Node selector for pod scheduling
+nodeSelector: {}
+
+# -- Tolerations for pod scheduling
+tolerations: []
+
+# -- Affinity rules for pod scheduling
+affinity: {}
+
+# -- Liveness probe configuration
+livenessProbe:
+  enabled: true
+  httpGet:
+    path: /health
+    port: http
+  initialDelaySeconds: 15
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 3
+  successThreshold: 1
+
+# -- Readiness probe configuration
+readinessProbe:
+  enabled: true
+  httpGet:
+    path: /health
+    port: http
+  initialDelaySeconds: 5
+  periodSeconds: 5
+  timeoutSeconds: 3
+  failureThreshold: 3
+  successThreshold: 1
+
+# -- Startup probe configuration (for slow-starting containers)
+startupProbe:
+  enabled: false
+  httpGet:
+    path: /health
+    port: http
+  initialDelaySeconds: 10
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 30
+
+# ==============================================================================
+# Application Configuration (ConfigMap)
+# ==============================================================================
+config:
+  # -- CORS allowed origins (comma-separated)
+  corsOrigins: "http://todo-frontend-svc:3000,http://localhost:30080,http://127.0.0.1:30080"
+  # -- Debug mode
+  debug: "false"
+  # -- AI provider (groq, openai, anthropic)
+  aiProvider: "groq"
+
+# ==============================================================================
+# Secrets Configuration
+# ==============================================================================
+secrets:
+  # -- Create secrets (set to false if using external secrets)
+  create: true
+  # -- Database connection URL (base64 encoded in secret)
+  databaseUrl: ""
+  # -- JWT secret key for authentication
+  jwtSecretKey: ""
+  # -- Groq API key (if using Groq as AI provider)
+  groqApiKey: ""
+  # -- OpenAI API key (if using OpenAI as AI provider)
+  openaiApiKey: ""
+  # -- Anthropic API key (if using Anthropic as AI provider)
+  anthropicApiKey: ""
+
+# -- Extra environment variables to add to the container
+extraEnv: []
+# - name: EXTRA_VAR
+#   value: "extra-value"
+
+# -- Extra environment variables from ConfigMaps or Secrets
+extraEnvFrom: []
+# - configMapRef:
+#     name: extra-config
+# - secretRef:
+#     name: extra-secret
+
+# -- Extra volumes to add to the pod
+extraVolumes: []
+
+# -- Extra volume mounts to add to the container
+extraVolumeMounts: []

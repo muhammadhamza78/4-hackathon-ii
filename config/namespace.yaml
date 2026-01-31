@@ -1,0 +1,18 @@
+# ==============================================================================
+# Phase IV - Kubernetes Namespace Definition
+# ==============================================================================
+# This file defines the namespace for the Todo Chatbot application.
+# Apply with: kubectl apply -f namespace.yaml
+# ==============================================================================
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: todo-chatbot
+  labels:
+    app.kubernetes.io/name: todo-chatbot
+    app.kubernetes.io/part-of: phase-4-deployment
+    app.kubernetes.io/managed-by: helm
+    environment: local
+  annotations:
+    description: "Namespace for Todo Chatbot application - Phase IV Kubernetes Deployment"

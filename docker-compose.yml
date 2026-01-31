@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  todo-backend:
+    build: ./backend
+    container_name: todo-backend
+    ports:
+      - "8000:8000"
+    networks:
+      - todo-network
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8000/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  todo-frontend:
+    build: ./frontend
+    container_name: todo-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://localhost:8000
+    depends_on:
+      - todo-backend
+    networks:
+      - todo-network
+
+networks:
+  todo-network:
+    driver: bridge
